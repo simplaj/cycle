@@ -9,16 +9,16 @@ using namespace std;
 void sort_2_3(int* arr, int p, int q) {
 	int n2 = q - p + 1;
 	if (n2 == 2) {
-		cout << "sort_2_3 2:" << arr[p] << "," << arr[p + 1] << endl;
+		//cout << "两个元素排序：" << arr[p] << "," << arr[p + 1] << endl;
 		if (arr[p] > arr[p + 1]) {
 			int tmp = arr[p];
 			arr[p] = arr[p + 1];
 			arr[p + 1] = tmp;
 		}
-		cout << "sort_2_3 2:" << arr[p] << "," << arr[p + 1] << endl;
+		cout << "二元排序:" << arr[p] << "," << arr[p + 1] << endl;
 	}
 	else if (n2 == 3) {
-		cout << "sort_2_3 3:" << arr[p] << "," << arr[p + 1] << "," << arr[p + 2] << endl;
+		//cout << "三个元素排序:" << arr[p] << "," << arr[p + 1] << "," << arr[p + 2] << endl;
 		int Min = arr[p];
 		int Max = arr[p];
 		int min_i = 0;
@@ -37,7 +37,7 @@ void sort_2_3(int* arr, int p, int q) {
 		arr[p] = Min;
 		arr[p + 1] = Mid;
 		arr[p + 2] = Max;
-		cout << "sort_2_3 3:" << arr[p] << "," << arr[p + 1] << "," << arr[p + 2] << endl;
+		cout << "三元排序:" << arr[p] << "," << arr[p + 1] << "," << arr[p + 2] << endl;
 	}
 	else {
 		//cout<<n2<<endl;
@@ -45,7 +45,7 @@ void sort_2_3(int* arr, int p, int q) {
 }
 
 void Merge(int* arr, int p, int q) {
-	cout << "merge:" << p << "," << q << endl;
+	cout << "合并:" << p << "," << q << endl;
 	for (int i = p; i <= q; i++) {
 		cout << arr[i] << " ";
 	}
@@ -73,14 +73,14 @@ void Merge(int* arr, int p, int q) {
 		tmps[i][in] = arr[p + i * n2 + in];
 	tmps[i][in] = INT_MAX;
 
-	cout << "初始化数据：" << endl;
+	cout << "分治：" << endl;
 	for (int i = 0; i < n2; i++) {
 		for (int j = 0; j < tmps[i].size(); j++) {
 			cout << tmps[i][j] << " ";
 		}
 		cout << endl;
 	}
-	cout << "初始化数据." << endl;
+	//cout << "初始化数据." << endl;
 
 	//每行标记
 	vector<int> locs(n2);
@@ -101,6 +101,7 @@ void Merge(int* arr, int p, int q) {
 		Min = tmps[index_col][locs[index_col] + 1];
 		locs[index_col]++;
 	}
+	cout << "分治排序："<<endl;
 	for (int i = p; i <= q; i++) {
 		cout << arr[i] << " ";
 	}
@@ -130,13 +131,15 @@ void sqrt_n_sort(int* arr, int p, int q) {
 
 int main()
 {
-	int arr[17] = { 45,46,85,1,56,45,85,69,36,14,57,59,8,4,6,12,32};
+	int arr[17] = { 45,46,85,1,56,45,35,69,36,14,57,59,8,4,6,12,32};
 	sqrt_n_sort(&arr[0], 0, 16);
 
-	//cout<<"begin:"<<endl;
-	for (int i = 0; i < 17; i++) {
+	cout<<"结果输出:"<<endl;
+	int i = 0;
+	for (; i < 16; i++) {
 		cout << arr[i] << "," ;
 	}
+	cout << arr[i] << endl;
 	return 0;
 }
 
