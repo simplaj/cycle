@@ -7,8 +7,8 @@
 using namespace std;
 
 void sort_2_3(int* arr, int p, int q) {
-	int num = q - p + 1;
-	if (num == 2) {
+	int n2 = q - p + 1;
+	if (n2 == 2) {
 		cout << "sort_2_3 2:" << arr[p] << "," << arr[p + 1] << endl;
 		if (arr[p] > arr[p + 1]) {
 			int tmp = arr[p];
@@ -17,7 +17,7 @@ void sort_2_3(int* arr, int p, int q) {
 		}
 		cout << "sort_2_3 2:" << arr[p] << "," << arr[p + 1] << endl;
 	}
-	else if (num == 3) {
+	else if (n2 == 3) {
 		cout << "sort_2_3 3:" << arr[p] << "," << arr[p + 1] << "," << arr[p + 2] << endl;
 		int Min = arr[p];
 		int Max = arr[p];
@@ -40,7 +40,7 @@ void sort_2_3(int* arr, int p, int q) {
 		cout << "sort_2_3 3:" << arr[p] << "," << arr[p + 1] << "," << arr[p + 2] << endl;
 	}
 	else {
-		//cout<<num<<endl;
+		//cout<<n2<<endl;
 	}
 }
 
@@ -51,30 +51,30 @@ void Merge(int* arr, int p, int q) {
 	}
 	cout << endl;
 	int n = q - p + 1;
-	int num = int(sqrt(n));
+	int n2 = int(sqrt(n));
 	//开辟暂存空间
 	int i = 0;
-	vector<vector<int> > tmps(num);
-	for (; i < num - 1; i++) {
-		tmps[i].resize(num + 1);
+	vector<vector<int> > tmps(n2);
+	for (; i < n2 - 1; i++) {
+		tmps[i].resize(n2 + 1);
 	}
-	tmps[i].resize(n - i * num + 1);
+	tmps[i].resize(n - i * n2 + 1);
 
 	//初始化数据
-	for (i = 0; i < num - 1; i++) {
+	for (i = 0; i < n2 - 1; i++) {
 		int j = 0;
-		for (; j < num; j++) {
-			tmps[i][j] = arr[p + i * num + j];
+		for (; j < n2; j++) {
+			tmps[i][j] = arr[p + i * n2 + j];
 		}
 		tmps[i][j] = INT_MAX;
 	}
 	int in = 0;
-	for (; in < n - i * num; in++)
-		tmps[i][in] = arr[p + i * num + in];
+	for (; in < n - i * n2; in++)
+		tmps[i][in] = arr[p + i * n2 + in];
 	tmps[i][in] = INT_MAX;
 
 	cout << "初始化数据：" << endl;
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < n2; i++) {
 		for (int j = 0; j < tmps[i].size(); j++) {
 			cout << tmps[i][j] << " ";
 		}
@@ -83,23 +83,23 @@ void Merge(int* arr, int p, int q) {
 	cout << "初始化数据." << endl;
 
 	//每行标记
-	int poses[num];
-	for (int i = 0; i < num; i++) {
-		poses[i] = 0;
+	vector<int> locs(n2);
+	for (int i = 0; i < n2; i++) {
+		locs[i] = 0;
 	}
 	//比较
 	int Min = tmps[0][0];
-	int index_row = 0;
+	int index_col = 0;
 	for (i = p; i <= q; i++) {
-		for (int j = 0; j < num; j++) {
-			if (tmps[j][poses[j]] < Min) {
-				Min = tmps[j][poses[j]];
-				index_row = j;
+		for (int j = 0; j < n2; j++) {
+			if (tmps[j][locs[j]] < Min) {
+				Min = tmps[j][locs[j]];
+				index_col = j;
 			}
 		}
-		arr[i] = tmps[index_row][poses[index_row]];
-		Min = tmps[index_row][poses[index_row] + 1];
-		poses[index_row]++;
+		arr[i] = tmps[index_col][locs[index_col]];
+		Min = tmps[index_col][locs[index_col] + 1];
+		locs[index_col]++;
 	}
 	for (int i = p; i <= q; i++) {
 		cout << arr[i] << " ";
@@ -108,19 +108,19 @@ void Merge(int* arr, int p, int q) {
 }
 
 void sqrt_n_sort(int* arr, int p, int q) {
-	cout << "deviation" << endl;
+	//cout << "deviation" << endl;
 	int n = q - p + 1;
-	int num = int(sqrt(n));
-	if (num > 1) {
+	int n2 = int(sqrt(n));
+	if (n2 > 1) {
 		int i = 0;
-		for (; i < num - 1; i++) {
-			cout << p + num * i << "," << p + num * (i + 1) - 1 << endl;
-			sqrt_n_sort(arr, p + num * i, p + num * (i + 1) - 1);
-			//sort_2_3(arr, p + num*i, p + num*(i+1) - 1);
+		for (; i < n2 - 1; i++) {
+			//cout << p + n2 * i << "," << p + n2 * (i + 1) - 1 << endl;
+			sqrt_n_sort(arr, p + n2 * i, p + n2 * (i + 1) - 1);
+			//sort_2_3(arr, p + n2*i, p + n2*(i+1) - 1);
 		}
-		cout << p + num * i << "," << q << endl;
-		sqrt_n_sort(arr, p + num * i, q);
-		//sort_2_3(arr, p + num*i, q);
+		//cout << p + n2 * i << "," << q << endl;
+		sqrt_n_sort(arr, p + n2 * i, q);
+		//sort_2_3(arr, p + n2*i, q);
 		Merge(arr, p, q);
 	}
 	else {
@@ -130,12 +130,12 @@ void sqrt_n_sort(int* arr, int p, int q) {
 
 int main()
 {
-	int arr[17] = { 3,9,11,25,18,21,19,7,6,19,22,15,19,24,2,1,16 };
+	int arr[17] = { 45,46,85,1,56,45,85,69,36,14,57,59,8,4,6,12,32};
 	sqrt_n_sort(&arr[0], 0, 16);
 
 	//cout<<"begin:"<<endl;
 	for (int i = 0; i < 17; i++) {
-		cout << arr[i] << " " << endl;
+		cout << arr[i] << "," ;
 	}
 	return 0;
 }
